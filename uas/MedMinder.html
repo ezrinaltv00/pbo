@@ -144,4 +144,19 @@
           <h2>Login Berhasil</h2>
           <p>Halo <b>${name}</b> 👋</p>
           <p>Ingat minum obat tepat waktu ⏰</p>
-          <button i
+          <button id="logoutBtn">Logout</button>
+        `;
+        logoutBtn.onclick = () => this.renderLogin();
+      }
+
+      reset() {
+        username.value = '';
+        password.value = '';
+      }
+    }
+
+    new MedMinderLogin('app');
+  </script>
+
+</body>
+</html>
