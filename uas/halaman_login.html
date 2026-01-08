@@ -18,27 +18,30 @@ body{
   overflow:hidden;
 }
 
-/* ================= EMOJI & SNOW FALL ================= */
-.fall{
-  position:absolute;
-  top:-60px;
-  pointer-events:none;
-  animation: fall linear infinite;
-}
-
-.emoji{
-  font-size:30px;
-  opacity:0.4;
-}
-
+/* ================= SNOW ================= */
 .snow{
-  width:6px;
-  height:6px;
+  position:absolute;
+  top:-10px;
+  width:5px;
+  height:5px;
   background:white;
   border-radius:50%;
-  opacity:0.6;
+  opacity:0.9;
+  animation: fall linear infinite;
+  z-index:1;
 }
 
+/* ================= EMOJI FALL ================= */
+.emoji{
+  position:absolute;
+  top:-60px;
+  font-size:30px;
+  opacity:0.4;
+  animation: fall linear infinite;
+  z-index:1;
+}
+
+/* ================= FALL ANIMATION ================= */
 @keyframes fall{
   to{
     transform:translateY(110vh);
@@ -139,30 +142,33 @@ button{
 <div class="card" id="app"></div>
 
 <script>
-/* ================= FALLING BACKGROUND ================= */
+/* ================= BACKGROUND GENERATOR ================= */
 const emojis = ["💊","🩺","💉","🧪","🩹","🏥","🧑‍⚕️","❤️"];
 
-function createEmoji(){
-  const e = document.createElement("div");
-  e.className = "fall emoji";
-  e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  e.style.left = Math.random()*100 + "vw";
-  e.style.animationDuration = (6 + Math.random()*6) + "s";
-  document.body.appendChild(e);
-  setTimeout(()=>e.remove(),12000);
-}
-
+// SNOW
 function createSnow(){
   const s = document.createElement("div");
-  s.className = "fall snow";
+  s.className = "snow";
   s.style.left = Math.random()*100 + "vw";
-  s.style.animationDuration = (5 + Math.random()*5) + "s";
+  s.style.animationDuration = (4 + Math.random()*6) + "s";
   document.body.appendChild(s);
-  setTimeout(()=>s.remove(),10000);
+  setTimeout(()=>s.remove(),12000);
 }
 
-setInterval(createEmoji,400);
-setInterval(createSnow,120);
+// EMOJI
+function createEmoji(){
+  const e = document.createElement("div");
+  e.className = "emoji";
+  e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  e.style.left = Math.random()*100 + "vw";
+  e.style.animationDuration = (6 + Math.random()*8) + "s";
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),15000);
+}
+
+// interval
+setInterval(createSnow, 120);   // snow BANYAK
+setInterval(createEmoji, 500);  // emoji agak jarang
 
 /* ================= APP ================= */
 class MedMinder{
@@ -182,7 +188,7 @@ class MedMinder{
 
   choice(){
     this.app.innerHTML = `
-      <h1>💊 MedMinder</h1>
+      <h1>MedMinder 💊</h1>
       <div class="subtitle">Medication monitoring system</div>
       <button class="primary" onclick="app.loginPage()">Login</button>
       <button class="secondary" onclick="app.registerPage()">Register</button>
