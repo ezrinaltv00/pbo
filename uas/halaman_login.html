@@ -1,264 +1,169 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>MedMinder</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedMinder</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-<style>
-*{box-sizing:border-box}
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffb6d5, #ffd6e8);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#ffc1dc;
-  overflow:hidden;
-}
+    /* Floating emojis */
+    .emoji {
+      position: absolute;
+      font-size: 28px;
+      animation: fall linear infinite;
+      opacity: 0.9;
+    }
 
-/* ================= SNOW ================= */
-.snow{
-  position:absolute;
-  top:-10px;
-  width:5px;
-  height:5px;
-  background:white;
-  border-radius:50%;
-  opacity:0.9;
-  animation: fall linear infinite;
-  z-index:1;
-}
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
 
-/* ================= EMOJI FALL ================= */
-.emoji{
-  position:absolute;
-  top:-60px;
-  font-size:30px;
-  opacity:0.4;
-  animation: fall linear infinite;
-  z-index:1;
-}
+    /* Snow effect */
+    .snow {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      animation: snowFall linear infinite;
+      opacity: 0.8;
+    }
 
-/* ================= FALL ANIMATION ================= */
-@keyframes fall{
-  to{
-    transform:translateY(110vh);
-  }
-}
+    @keyframes snowFall {
+      0% { transform: translateY(-10vh); }
+      100% { transform: translateY(110vh); }
+    }
 
-/* ================= LOGIN CARD ================= */
-.card{
-  width:360px;
-  background:#fff;
-  padding:28px;
-  border-radius:18px;
-  box-shadow:0 18px 40px rgba(0,0,0,0.25);
-  position:relative;
-  z-index:10;
-  text-align:center; /* RATA TENGAH */
-}
+    .login-box {
+      position: relative;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
 
-h1,h2{
-  margin:0 0 10px;
-  font-weight:600;
-  color:#222;
-}
+    h1 {
+      margin-bottom: 10px;
+      color: #ff5fa2;
+    }
 
-.subtitle{
-  font-size:13px;
-  color:#666;
-  margin-bottom:20px;
-}
+    p {
+      margin-bottom: 20px;
+      color: #777;
+      font-size: 14px;
+    }
 
-input{
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  font-size:14px;
-  text-align:center;
-}
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      outline: none;
+    }
 
-button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:600;
-  font-size:14px;
-}
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #ff5fa2;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-.primary{
-  background:#ff5fa2;
-  color:white;
-}
+    button:hover {
+      background: #ff3c90;
+    }
 
-.secondary{
-  background:#f3f3f3;
-  color:#444;
-  margin-top:8px;
-}
+    .hidden { display: none; }
 
-.logout{
-  background:#e53935;
-  color:white;
-}
-
-.link{
-  margin-top:14px;
-  font-size:13px;
-  color:#666;
-}
-.link span{
-  color:#ff5fa2;
-  cursor:pointer;
-  font-weight:600;
-}
-
-/* ================= DASHBOARD ================= */
-.dashboard{
-  text-align:center;
-}
-.card-box{
-  background:#f9f9f9;
-  border-radius:12px;
-  padding:14px;
-  margin-top:14px;
-  font-size:14px;
-}
-.card-box b{
-  display:block;
-  margin-bottom:6px;
-}
-</style>
+    .menu button {
+      margin-top: 10px;
+      background: #ff8fbf;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="card" id="app"></div>
+  <div class="login-box" id="loginBox">
+    <h1>MedMinder 💊</h1>
+    <p>Login dulu ya ✨</p>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
 
-<script>
-/* ================= BACKGROUND GENERATOR ================= */
-const emojis = ["💊","🩺","💉","🧪","🩹","🏥","🧑‍⚕️","❤️"];
+  <div class="login-box hidden" id="welcomeBox">
+    <h1>🎉 Selamat Ezrina!</h1>
+    <p>Anda berhasil login 💖</p>
+    <div class="menu">
+      <button>Lihat Daftar Obat 💊</button>
+      <button>Tambah Jadwal ⏰</button>
+      <button>Logout 🚪</button>
+    </div>
+  </div>
 
-// SNOW
-function createSnow(){
-  const s = document.createElement("div");
-  s.className = "snow";
-  s.style.left = Math.random()*100 + "vw";
-  s.style.animationDuration = (4 + Math.random()*6) + "s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),12000);
-}
+  <script>
+    const correctUser = 'ezrina';
+    const correctPass = 'mw0rkli';
 
-// EMOJI
-function createEmoji(){
-  const e = document.createElement("div");
-  e.className = "emoji";
-  e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  e.style.left = Math.random()*100 + "vw";
-  e.style.animationDuration = (6 + Math.random()*8) + "s";
-  document.body.appendChild(e);
-  setTimeout(()=>e.remove(),15000);
-}
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
 
-// interval
-setInterval(createSnow, 120);   // snow BANYAK
-setInterval(createEmoji, 500);  // emoji agak jarang
-
-/* ================= APP ================= */
-class MedMinder{
-  constructor(id){
-    this.app = document.getElementById(id);
-    this.init();
-  }
-
-  init(){
-    if(!localStorage.getItem("users")){
-      localStorage.setItem("users", JSON.stringify([
-        {username:"ezrina", password:"mw0rkli"}
-      ]));
+      if (user === correctUser && pass === correctPass) {
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('welcomeBox').classList.remove('hidden');
+      } else {
+        alert('Username atau password salah 😢');
+      }
     }
-    this.choice();
-  }
 
-  choice(){
-    this.app.innerHTML = `
-      <h1>MedMinder 💊</h1>
-      <div class="subtitle">Medication monitoring system</div>
-      <button class="primary" onclick="app.loginPage()">Login</button>
-      <button class="secondary" onclick="app.registerPage()">Register</button>
-    `;
-  }
+    // emojis background
+    const emojis = ['💊','🩺','🩹','🧪','💉','🏥'];
+    for (let i = 0; i < 40; i++) {
+      const span = document.createElement('span');
+      span.className = 'emoji';
+      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      span.style.left = Math.random() * 100 + 'vw';
+      span.style.animationDuration = 5 + Math.random() * 5 + 's';
+      span.style.fontSize = 20 + Math.random() * 20 + 'px';
+      document.body.appendChild(span);
+    }
 
-  loginPage(){
-    this.app.innerHTML = `
-      <h2>Login</h2>
-      <input id="username" placeholder="Username">
-      <input id="password" type="password" placeholder="Password">
-      <button class="primary" onclick="app.login()">Login</button>
-      <div class="link">Belum punya akun? <span onclick="app.registerPage()">Register</span></div>
-    `;
-  }
-
-  registerPage(){
-    this.app.innerHTML = `
-      <h2>Register</h2>
-      <input id="regUser" placeholder="Username">
-      <input id="regPass" type="password" placeholder="Password">
-      <button class="primary" onclick="app.register()">Register</button>
-      <div class="link">Sudah punya akun? <span onclick="app.loginPage()">Login</span></div>
-    `;
-  }
-
-  login(){
-    const u = username.value;
-    const p = password.value;
-    const users = JSON.parse(localStorage.getItem("users"));
-    const found = users.find(x=>x.username===u && x.password===p);
-    if(!found) alert("Login gagal");
-    else this.dashboard(u);
-  }
-
-  register(){
-    const u = regUser.value;
-    const p = regPass.value;
-    if(!u||!p) return alert("Data belum lengkap");
-    const users = JSON.parse(localStorage.getItem("users"));
-    if(users.find(x=>x.username===u)) return alert("Username sudah terdaftar");
-    users.push({username:u,password:p});
-    localStorage.setItem("users", JSON.stringify(users));
-    this.loginPage();
-  }
-
-  dashboard(username){
-    this.app.innerHTML = `
-      <div class="dashboard">
-        <h2>Dashboard</h2>
-        <div class="subtitle">User: ${username}</div>
-
-        <div class="card-box">
-          <b>Status Hari Ini</b>
-          Tidak ada jadwal obat aktif
-        </div>
-
-        <div class="card-box">
-          <b>Riwayat</b>
-          Belum ada data konsumsi
-        </div>
-
-        <button class="logout" onclick="app.choice()">Logout</button>
-      </div>
-    `;
-  }
-}
-
-const app = new MedMinder("app");
-</script>
-
+    // snow dots
+    for (let i = 0; i < 50; i++) {
+      const snow = document.createElement('div');
+      snow.className = 'snow';
+      snow.style.left = Math.random() * 100 + 'vw';
+      snow.style.animationDuration = 4 + Math.random() * 6 + 's';
+      document.body.appendChild(snow);
+    }
+  </script>
 </body>
 </html>
