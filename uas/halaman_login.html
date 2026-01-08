@@ -7,47 +7,56 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Comic Sans MS", Arial, sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* BACKGROUND PINK + POLA KARTUN */
   background-color: #ffc0d9;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25) 2%, transparent 2%),
-    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.25) 2%, transparent 2%),
-    radial-gradient(circle at 40% 70%, rgba(255,255,255,0.25) 2%, transparent 2%),
-    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.25) 2%, transparent 2%);
-  background-size: 120px 120px;
+  overflow: hidden;
 }
 
-.health-icons {
+/* BACKGROUND EMOJI */
+.bg-icons {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  font-size: 40px;
-  opacity: 0.15;
+  z-index: 1;
 }
 
-.health-icons span {
+.bg-icons span {
   position: absolute;
+  font-size: 42px;
+  opacity: 0.45; /* LEBIH KELIHATAN */
+  animation: float 12s infinite ease-in-out;
 }
 
-.health-icons span:nth-child(1){top:10%;left:10%;}
-.health-icons span:nth-child(2){top:20%;right:15%;}
-.health-icons span:nth-child(3){bottom:25%;left:15%;}
-.health-icons span:nth-child(4){bottom:15%;right:20%;}
-.health-icons span:nth-child(5){top:45%;left:5%;}
-.health-icons span:nth-child(6){top:55%;right:5%;}
+/* POSISI ACAK */
+.bg-icons span:nth-child(1){top:5%;left:8%;}
+.bg-icons span:nth-child(2){top:15%;right:10%;}
+.bg-icons span:nth-child(3){top:30%;left:15%;}
+.bg-icons span:nth-child(4){top:45%;right:5%;}
+.bg-icons span:nth-child(5){top:60%;left:5%;}
+.bg-icons span:nth-child(6){top:70%;right:15%;}
+.bg-icons span:nth-child(7){bottom:10%;left:20%;}
+.bg-icons span:nth-child(8){bottom:20%;right:25%;}
+.bg-icons span:nth-child(9){top:50%;left:30%;}
+.bg-icons span:nth-child(10){top:10%;left:45%;}
+.bg-icons span:nth-child(11){top:80%;left:50%;}
+.bg-icons span:nth-child(12){top:35%;right:35%;}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
 
 .box {
   background: #ffffff;
   width: 360px;
   padding: 25px;
-  border-radius: 22px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+  border-radius: 24px;
+  box-shadow: 0 18px 35px rgba(0,0,0,0.25);
   text-align: center;
   position: relative;
   z-index: 2;
@@ -55,24 +64,25 @@ body {
 
 h2 {
   margin-bottom: 5px;
+  color: #ff4f9a;
 }
 
 .subtitle {
   font-size: 13px;
-  color: #777;
+  color: #888;
   margin-bottom: 15px;
 }
 
 .icons {
-  font-size: 32px;
-  margin-bottom: 15px;
+  font-size: 34px;
+  margin-bottom: 12px;
 }
 
 input, select {
   width: 100%;
   padding: 10px;
   margin: 7px 0;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #ccc;
 }
 
@@ -80,7 +90,7 @@ button {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 8px;
@@ -103,7 +113,7 @@ button {
 .card {
   background: #fff1f7;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 8px;
   font-size: 14px;
 }
@@ -121,14 +131,20 @@ small {
 
 <body>
 
-<!-- ORNAMEN KARTUN KESEHATAN -->
-<div class="health-icons">
+<!-- EMOJI BACKGROUND -->
+<div class="bg-icons">
   <span>🩺</span>
   <span>💊</span>
+  <span>🏥</span>
+  <span>💉</span>
+  <span>🩹</span>
   <span>🌡️</span>
+  <span>🩻</span>
+  <span>🚑</span>
+  <span>💊</span>
+  <span>🩺</span>
   <span>🩹</span>
   <span>💉</span>
-  <span>🏥</span>
 </div>
 
 <div class="box" id="app"></div>
@@ -144,7 +160,7 @@ class MedMinder {
     this.app.innerHTML = `
       <h2>MedMinder</h2>
       <div class="icons">🩺 💊 🌡️</div>
-      <div class="subtitle">Pantau jadwal minum obat dengan mudah</div>
+      <div class="subtitle">Pantau jadwal minum obat dengan cara imut 💕</div>
       <button class="primary" onclick="app.renderLogin()">Login</button>
       <button class="secondary" onclick="app.renderRegister()">Daftar</button>
     `;
@@ -164,7 +180,7 @@ class MedMinder {
   register(){
     const u = regUser.value.trim();
     const p = regPass.value.trim();
-    if(!u || !p) return alert("Data tidak lengkap");
+    if(!u || !p) return alert("Data belum lengkap");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     if(users.find(x=>x.username===u))
@@ -172,7 +188,7 @@ class MedMinder {
 
     users.push({username:u,password:p});
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Berhasil daftar, silakan login");
+    alert("Berhasil daftar 💕");
     this.renderLogin();
   }
 
@@ -193,7 +209,7 @@ class MedMinder {
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     const found = users.find(x=>x.username===u && x.password===p);
-    if(!found) return alert("Login gagal");
+    if(!found) return alert("Login gagal 😢");
 
     this.currentUser = u;
     if(!localStorage.getItem(u+"_meds"))
@@ -206,7 +222,7 @@ class MedMinder {
     this.app.innerHTML = `
       <h2>Dashboard</h2>
       <div class="icons">💊 📋</div>
-      <small>Halo <b>${this.currentUser}</b></small>
+      <small>Hai <b>${this.currentUser}</b> 💖</small>
       <button class="secondary" onclick="app.renderAdd()">+ Tambah Obat</button>
       <div id="list"></div>
       <button class="danger" onclick="app.logout()">Logout</button>
@@ -250,7 +266,7 @@ class MedMinder {
   renderList(){
     const list = document.getElementById("list");
     const meds = JSON.parse(localStorage.getItem(this.currentUser+"_meds"));
-    list.innerHTML = meds.length ? "" : "<small>Belum ada obat</small>";
+    list.innerHTML = meds.length ? "" : "<small>Belum ada obat 💊</small>";
 
     meds.forEach((m,i)=>{
       const div = document.createElement("div");
