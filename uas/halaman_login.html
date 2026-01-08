@@ -13,13 +13,13 @@
       justify-content: center;
       align-items: center;
 
-      /* PINK + WHITE TINY POLKADOT */
-      background-color: #ffc1dc;
+      /* SOFT PASTEL PINK + TINY WHITE POLKADOT */
+      background-color: #ffe4ef;
       background-image:
-        radial-gradient(rgba(255,255,255,0.35) 8%, transparent 9%),
-        radial-gradient(rgba(255,255,255,0.35) 8%, transparent 9%);
-      background-size: 24px 24px;
-      background-position: 0 0, 12px 12px;
+        radial-gradient(rgba(255,255,255,0.25) 7%, transparent 8%),
+        radial-gradient(rgba(255,255,255,0.25) 7%, transparent 8%);
+      background-size: 26px 26px;
+      background-position: 0 0, 13px 13px;
     }
 
     .box {
@@ -27,13 +27,16 @@
       padding: 30px 25px;
       width: 320px;
       border-radius: 18px;
-      box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.18);
       text-align: center;
     }
 
+    /* FORCE EMOJI FONT */
     .icon {
-      font-size: 42px;
+      font-size: 38px;
       margin-bottom: 6px;
+      font-family: "Segoe UI Emoji", "Apple Color Emoji",
+                   "Noto Color Emoji", sans-serif;
     }
 
     h2 {
@@ -43,7 +46,7 @@
 
     .subtitle {
       font-size: 13px;
-      color: #777;
+      color: #888;
       margin-bottom: 15px;
     }
 
@@ -66,14 +69,14 @@
     }
 
     #loginBtn {
-      background: linear-gradient(90deg, #ff6fae, #ff9acb);
+      background: linear-gradient(90deg, #ff7eb3, #ffb3d9);
       color: white;
       margin-top: 12px;
     }
 
     #cancelBtn {
       margin-top: 8px;
-      background: #f5f5f5;
+      background: #f7f7f7;
       color: #444;
     }
 
@@ -110,7 +113,11 @@
 
       renderLogin() {
         this.container.innerHTML = `
-          <div class="icon">💊❤️‍🩹</div>
+          <div class="icon">
+            <span>💊</span>
+            <span>🩺</span>
+            <span>❤️</span>
+          </div>
           <h2>MedMinder</h2>
           <div class="subtitle">Medicine Reminder System</div>
 
@@ -148,7 +155,10 @@
       renderDashboard(username) {
         this.container.innerHTML = `
           <div class="user-info">
-            <div class="icon">💊🩺</div>
+            <div class="icon">
+              <span>💊</span>
+              <span>🩺</span>
+            </div>
             <h2>Login Berhasil</h2>
             <p>Halo <b>${username}</b>, selamat datang di MedMinder</p>
             <p>Jangan lupa minum obat tepat waktu ⏰</p>
