@@ -8,20 +8,49 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #ffc0d9;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* BACKGROUND PINK + POLA KARTUN */
+  background-color: #ffc0d9;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25) 2%, transparent 2%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.25) 2%, transparent 2%),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,0.25) 2%, transparent 2%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.25) 2%, transparent 2%);
+  background-size: 120px 120px;
 }
 
+.health-icons {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  font-size: 40px;
+  opacity: 0.15;
+}
+
+.health-icons span {
+  position: absolute;
+}
+
+.health-icons span:nth-child(1){top:10%;left:10%;}
+.health-icons span:nth-child(2){top:20%;right:15%;}
+.health-icons span:nth-child(3){bottom:25%;left:15%;}
+.health-icons span:nth-child(4){bottom:15%;right:20%;}
+.health-icons span:nth-child(5){top:45%;left:5%;}
+.health-icons span:nth-child(6){top:55%;right:5%;}
+
 .box {
-  background: #fff;
+  background: #ffffff;
   width: 360px;
   padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  border-radius: 22px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 h2 {
@@ -43,7 +72,7 @@ input, select {
   width: 100%;
   padding: 10px;
   margin: 7px 0;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ccc;
 }
 
@@ -51,7 +80,7 @@ button {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 8px;
@@ -74,7 +103,7 @@ button {
 .card {
   background: #fff1f7;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 8px;
   font-size: 14px;
 }
@@ -91,6 +120,17 @@ small {
 </head>
 
 <body>
+
+<!-- ORNAMEN KARTUN KESEHATAN -->
+<div class="health-icons">
+  <span>🩺</span>
+  <span>💊</span>
+  <span>🌡️</span>
+  <span>🩹</span>
+  <span>💉</span>
+  <span>🏥</span>
+</div>
+
 <div class="box" id="app"></div>
 
 <script>
