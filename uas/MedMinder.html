@@ -5,39 +5,37 @@
   <title>MedMinder - Login</title>
 
   <style>
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
 
-      /* 🔥 PASTI KELIHATAN */
-      background-color: #ffd6e8;
+      /* PINK PASTEL + POLKADOT KELIHATAN */
+      background-color: #ffe4ef;
       background-image:
-        radial-gradient(circle, #ff9fc4 18%, transparent 19%),
-        radial-gradient(circle, #ff9fc4 18%, transparent 19%);
-      background-size: 36px 36px;
-      background-position: 0 0, 18px 18px;
+        radial-gradient(rgba(255,255,255,0.6) 12%, transparent 13%),
+        radial-gradient(rgba(255,255,255,0.6) 12%, transparent 13%);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
     }
 
     .box {
-      background: #ffffff;
+      background: rgba(255,255,255,0.95);
       padding: 30px 25px;
       width: 320px;
       border-radius: 18px;
-      box-shadow: 0 14px 35px rgba(0,0,0,0.2);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.18);
       text-align: center;
     }
 
     .icon {
-      font-size: 36px;
+      font-size: 38px;
       margin-bottom: 6px;
+      font-family: "Segoe UI Emoji", "Apple Color Emoji",
+                   "Noto Color Emoji", sans-serif;
     }
 
     h2 {
@@ -47,7 +45,7 @@
 
     .subtitle {
       font-size: 13px;
-      color: #777;
+      color: #888;
       margin-bottom: 15px;
     }
 
@@ -70,14 +68,14 @@
     }
 
     #loginBtn {
-      background: linear-gradient(90deg, #ff5fa2, #ff9acb);
+      background: linear-gradient(90deg, #ff7eb3, #ffb3d9);
       color: white;
       margin-top: 12px;
     }
 
     #resetBtn {
       margin-top: 8px;
-      background: #f3f3f3;
+      background: #f7f7f7;
       color: #444;
     }
 
@@ -102,10 +100,10 @@
       }
 
       initUsers() {
-        localStorage.setItem(
-          'users',
-          JSON.stringify([{ username: 'ezrinaltv', password: 'mw0rkli' }])
-        );
+        const users = [
+          { username: 'ezrinaltv', password: 'mw0rkli' }
+        ];
+        localStorage.setItem('users', JSON.stringify(users));
       }
 
       renderLogin() {
@@ -114,44 +112,57 @@
           <h2>MedMinder</h2>
           <div class="subtitle">Medicine Reminder System</div>
 
-          <input id="username" placeholder="Username">
-          <input id="password" type="password" placeholder="Password">
+          <input type="text" id="username" placeholder="Username">
+          <input type="password" id="password" placeholder="Password">
 
           <button id="loginBtn">Login</button>
           <button id="resetBtn">Reset</button>
         `;
 
-        document.getElementById('loginBtn').onclick = () => this.login();
-        document.getElementById('resetBtn').onclick = () => this.reset();
+        document.getElementById('loginBtn')
+          .addEventListener('click', () => this.login());
+
+        document.getElementById('resetBtn')
+          .addEventListener('click', () => this.resetForm());
       }
 
       login() {
-        const u = username.value.trim();
-        const p = password.value.trim();
-        const users = JSON.parse(localStorage.getItem('users'));
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
 
-        const valid = users.find(x => x.username === u && x.password === p);
-        if (!valid) {
-          alert('❌ Password salah');
+        const users = JSON.parse(localStorage.getItem('users'));
+        const user = users.find(
+          u => u.username === username && u.password === password
+        );
+
+        if (!user) {
+          alert('❌ Password salah!');
           return;
         }
-        this.dashboard(u);
+
+        this.renderDashboard(username);
       }
 
-      dashboard(name) {
+      renderDashboard(username) {
         this.container.innerHTML = `
           <div class="icon">💊 🩺</div>
           <h2>Login Berhasil</h2>
-          <p>Halo <b>${name}</b> 👋</p>
-          <p>Ingat minum obat tepat waktu ⏰</p>
+          <p>Halo <b>${username}</b>, selamat datang 👋</p>
+          <p>Jangan lupa minum obat tepat waktu ⏰</p>
           <button id="logoutBtn">Logout</button>
         `;
-        logoutBtn.onclick = () => this.renderLogin();
+
+        document.getElementById('logoutBtn')
+          .addEventListener('click', () => this.logout());
       }
 
-      reset() {
-        username.value = '';
-        password.value = '';
+      logout() {
+        this.renderLogin();
+      }
+
+      resetForm() {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
       }
     }
 
