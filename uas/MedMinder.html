@@ -13,17 +13,16 @@
       justify-content: center;
       align-items: center;
 
-      /* SOFT PASTEL PINK + TINY WHITE POLKADOT */
       background-color: #ffe4ef;
       background-image:
-        radial-gradient(rgba(255,255,255,0.25) 7%, transparent 8%),
-        radial-gradient(rgba(255,255,255,0.25) 7%, transparent 8%);
-      background-size: 26px 26px;
-      background-position: 0 0, 13px 13px;
+        radial-gradient(rgba(255,255,255,0.6) 12%, transparent 13%),
+        radial-gradient(rgba(255,255,255,0.6) 12%, transparent 13%);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
     }
 
     .box {
-      background: #ffffff;
+      background: rgba(255,255,255,0.95);
       padding: 30px 25px;
       width: 320px;
       border-radius: 18px;
@@ -31,7 +30,6 @@
       text-align: center;
     }
 
-    /* FORCE EMOJI FONT */
     .icon {
       font-size: 38px;
       margin-bottom: 6px;
@@ -74,7 +72,7 @@
       margin-top: 12px;
     }
 
-    #cancelBtn {
+    #resetBtn {
       margin-top: 8px;
       background: #f7f7f7;
       color: #444;
@@ -84,10 +82,6 @@
       margin-top: 15px;
       background: #e53935;
       color: white;
-    }
-
-    .user-info {
-      text-align: center;
     }
   </style>
 </head>
@@ -100,11 +94,11 @@
     class MedMinderLogin {
       constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.initData();
+        this.initUsers();
         this.renderLogin();
       }
 
-      initData() {
+      initUsers() {
         const users = [
           { username: 'ezrinaltv', password: 'mw0rkli' }
         ];
@@ -113,11 +107,7 @@
 
       renderLogin() {
         this.container.innerHTML = `
-          <div class="icon">
-            <span>💊</span>
-            <span>🩺</span>
-            <span>❤️</span>
-          </div>
+          <div class="icon">💊 🩺 ❤️</div>
           <h2>MedMinder</h2>
           <div class="subtitle">Medicine Reminder System</div>
 
@@ -125,13 +115,13 @@
           <input type="password" id="password" placeholder="Password">
 
           <button id="loginBtn">Login</button>
-          <button id="cancelBtn">Reset</button>
+          <button id="resetBtn">Reset</button>
         `;
 
         document.getElementById('loginBtn')
           .addEventListener('click', () => this.login());
 
-        document.getElementById('cancelBtn')
+        document.getElementById('resetBtn')
           .addEventListener('click', () => this.resetForm());
       }
 
@@ -145,7 +135,7 @@
         );
 
         if (!user) {
-          alert('⚠️ Username atau password sepertinya salah 😥');
+          alert('❌ Password salah!');
           return;
         }
 
@@ -154,16 +144,11 @@
 
       renderDashboard(username) {
         this.container.innerHTML = `
-          <div class="user-info">
-            <div class="icon">
-              <span>💊</span>
-              <span>🩺</span>
-            </div>
-            <h2>Login Berhasil</h2>
-            <p>Halo <b>${username}</b>, selamat datang di MedMinder</p>
-            <p>Jangan lupa minum obat tepat waktu ⏰</p>
-            <button id="logoutBtn">Logout</button>
-          </div>
+          <div class="icon">💊 🩺</div>
+          <h2>Login Berhasil</h2>
+          <p>Halo <b>${username}</b>, selamat datang 👋</p>
+          <p>Jangan lupa minum obat tepat waktu ⏰</p>
+          <button id="logoutBtn">Logout</button>
         `;
 
         document.getElementById('logoutBtn')
