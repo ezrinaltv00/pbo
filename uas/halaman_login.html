@@ -18,28 +18,34 @@ body{
   overflow:hidden;
 }
 
-/* ===== EMOJI FLOATING RANDOM ===== */
-.emoji{
+/* ================= EMOJI & SNOW FALL ================= */
+.fall{
   position:absolute;
-  font-size:32px;
-  opacity:0.35;
-  animation: float linear infinite;
+  top:-60px;
   pointer-events:none;
+  animation: fall linear infinite;
 }
 
-@keyframes float{
-  0%{
-    transform:translate(0,0) rotate(0deg);
-  }
-  50%{
-    transform:translate(var(--x), var(--y)) rotate(180deg);
-  }
-  100%{
-    transform:translate(0,0) rotate(360deg);
+.emoji{
+  font-size:30px;
+  opacity:0.4;
+}
+
+.snow{
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:0.6;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
   }
 }
 
-/* ===== LOGIN CARD (TIDAK DIUBAH) ===== */
+/* ================= LOGIN CARD ================= */
 .card{
   width:360px;
   background:#fff;
@@ -48,6 +54,7 @@ body{
   box-shadow:0 18px 40px rgba(0,0,0,0.25);
   position:relative;
   z-index:10;
+  text-align:center; /* RATA TENGAH */
 }
 
 h1,h2{
@@ -55,6 +62,7 @@ h1,h2{
   font-weight:600;
   color:#222;
 }
+
 .subtitle{
   font-size:13px;
   color:#666;
@@ -68,6 +76,7 @@ input{
   border-radius:10px;
   border:1px solid #ddd;
   font-size:14px;
+  text-align:center;
 }
 
 button{
@@ -79,22 +88,24 @@ button{
   font-weight:600;
   font-size:14px;
 }
+
 .primary{
   background:#ff5fa2;
   color:white;
 }
+
 .secondary{
   background:#f3f3f3;
   color:#444;
   margin-top:8px;
 }
+
 .logout{
   background:#e53935;
   color:white;
 }
 
 .link{
-  text-align:center;
   margin-top:14px;
   font-size:13px;
   color:#666;
@@ -105,8 +116,9 @@ button{
   font-weight:600;
 }
 
+/* ================= DASHBOARD ================= */
 .dashboard{
-  text-align:left;
+  text-align:center;
 }
 .card-box{
   background:#f9f9f9;
@@ -127,30 +139,32 @@ button{
 <div class="card" id="app"></div>
 
 <script>
-/* ===== RANDOM FLOATING EMOJIS ===== */
+/* ================= FALLING BACKGROUND ================= */
 const emojis = ["💊","🩺","💉","🧪","🩹","🏥","🧑‍⚕️","❤️"];
-const total = 40; // BANYAK & NYEBAR
 
-for(let i=0;i<total;i++){
+function createEmoji(){
   const e = document.createElement("div");
-  e.className = "emoji";
+  e.className = "fall emoji";
   e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-
-  // posisi RANDOM
   e.style.left = Math.random()*100 + "vw";
-  e.style.top = Math.random()*100 + "vh";
-
-  // arah gerak RANDOM
-  e.style.setProperty("--x",(Math.random()*120-60)+"px");
-  e.style.setProperty("--y",(Math.random()*120-60)+"px");
-
-  // durasi RANDOM
-  e.style.animationDuration = (8 + Math.random()*8) + "s";
-
+  e.style.animationDuration = (6 + Math.random()*6) + "s";
   document.body.appendChild(e);
+  setTimeout(()=>e.remove(),12000);
 }
 
-/* ===== APP ===== */
+function createSnow(){
+  const s = document.createElement("div");
+  s.className = "fall snow";
+  s.style.left = Math.random()*100 + "vw";
+  s.style.animationDuration = (5 + Math.random()*5) + "s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),10000);
+}
+
+setInterval(createEmoji,400);
+setInterval(createSnow,120);
+
+/* ================= APP ================= */
 class MedMinder{
   constructor(id){
     this.app = document.getElementById(id);
@@ -168,7 +182,7 @@ class MedMinder{
 
   choice(){
     this.app.innerHTML = `
-      <h1>MedMinder</h1>
+      <h1>💊 MedMinder</h1>
       <div class="subtitle">Medication monitoring system</div>
       <button class="primary" onclick="app.loginPage()">Login</button>
       <button class="secondary" onclick="app.registerPage()">Register</button>
