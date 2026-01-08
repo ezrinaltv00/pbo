@@ -20,6 +20,7 @@
       align-items: center;
     }
 
+    /* snow */
     .snow {
       position: absolute;
       width: 3px;
@@ -36,7 +37,7 @@
 
     .login-box {
       position: relative;
-      background: #ffffff; 
+      background: #ffffff; /* TIDAK TEMBUS */
       padding: 30px;
       border-radius: 20px;
       width: 320px;
@@ -101,6 +102,7 @@
   </div>
 
   <script>
+    // ================= OOP =================
     class User {
       constructor(username, password) {
         this.username = username;
@@ -143,6 +145,7 @@
 
     const app = new LoginApp();
 
+    // snow effect
     for (let i = 0; i < 100; i++) {
       const snow = document.createElement('div');
       snow.className = 'snow';
