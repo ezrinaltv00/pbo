@@ -5,8 +5,8 @@
 <title>MedMinder</title>
 
 <style>
-/* ===== RESET ===== */
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
@@ -18,26 +18,28 @@ body{
   overflow:hidden;
 }
 
-/* ===== EMOJI SNOW ===== */
+/* ===== EMOJI FLOATING RANDOM ===== */
 .emoji{
   position:absolute;
-  font-size:34px;
-  animation: fall linear infinite;
+  font-size:32px;
+  opacity:0.35;
+  animation: float linear infinite;
   pointer-events:none;
 }
 
-@keyframes fall{
-  from{
-    transform:translateY(-60px) rotate(0deg);
-    opacity:1;
+@keyframes float{
+  0%{
+    transform:translate(0,0) rotate(0deg);
   }
-  to{
-    transform:translateY(110vh) rotate(360deg);
-    opacity:0.9;
+  50%{
+    transform:translate(var(--x), var(--y)) rotate(180deg);
+  }
+  100%{
+    transform:translate(0,0) rotate(360deg);
   }
 }
 
-/* ===== CARD ===== */
+/* ===== LOGIN CARD (TIDAK DIUBAH) ===== */
 .card{
   width:360px;
   background:#fff;
@@ -48,7 +50,6 @@ body{
   z-index:10;
 }
 
-/* ===== TEXT ===== */
 h1,h2{
   margin:0 0 10px;
   font-weight:600;
@@ -60,7 +61,6 @@ h1,h2{
   margin-bottom:20px;
 }
 
-/* ===== INPUT ===== */
 input{
   width:100%;
   padding:12px;
@@ -70,7 +70,6 @@ input{
   font-size:14px;
 }
 
-/* ===== BUTTON ===== */
 button{
   width:100%;
   padding:12px;
@@ -94,7 +93,6 @@ button{
   color:white;
 }
 
-/* ===== LINK ===== */
 .link{
   text-align:center;
   margin-top:14px;
@@ -107,7 +105,6 @@ button{
   font-weight:600;
 }
 
-/* ===== DASHBOARD ===== */
 .dashboard{
   text-align:left;
 }
@@ -130,21 +127,28 @@ button{
 <div class="card" id="app"></div>
 
 <script>
-/* ===== EMOJI SNOW GENERATOR ===== */
+/* ===== RANDOM FLOATING EMOJIS ===== */
 const emojis = ["💊","🩺","💉","🧪","🩹","🏥","🧑‍⚕️","❤️"];
+const total = 40; // BANYAK & NYEBAR
 
-function createEmoji(){
+for(let i=0;i<total;i++){
   const e = document.createElement("div");
   e.className = "emoji";
   e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  e.style.left = Math.random()*100 + "vw";
-  e.style.animationDuration = (6 + Math.random()*6) + "s";
-  e.style.fontSize = (26 + Math.random()*16) + "px";
-  document.body.appendChild(e);
-  setTimeout(()=>e.remove(),12000);
-}
 
-setInterval(createEmoji,350);
+  // posisi RANDOM
+  e.style.left = Math.random()*100 + "vw";
+  e.style.top = Math.random()*100 + "vh";
+
+  // arah gerak RANDOM
+  e.style.setProperty("--x",(Math.random()*120-60)+"px");
+  e.style.setProperty("--y",(Math.random()*120-60)+"px");
+
+  // durasi RANDOM
+  e.style.animationDuration = (8 + Math.random()*8) + "s";
+
+  document.body.appendChild(e);
+}
 
 /* ===== APP ===== */
 class MedMinder{
