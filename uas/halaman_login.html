@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>MedMinder Web</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#8fd3f4,#ff9acb);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background: #ffffff;
+  width: 380px;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+h2 {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 7px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.primary {
+  background: linear-gradient(90deg,#ff6fae,#6fb8ff);
+  color: white;
+}
+
+.secondary {
+  background: #f0f0f0;
+}
+
+.danger {
+  background: #e53935;
+  color: white;
+}
+
+.card {
+  background: #f8f9ff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.card.done {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+small {
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+<div class="box" id="app"></div>
+
+<script>
+class MedMinder {
+  constructor(containerId) {
+    this.app = document.getElementById(containerId);
+    this.init();
+  }
+
+  init() {
+    if (!localStorage.getItem("users")) {
+      localStorage.setItem("users", JSON.stringify([
+        { username: "ezrina", password: "mw0rkli" }
+      ]));
+    }
+    this.renderLogin();
+  }
+
+  renderLogin() {
+    this.app.innerHTML = `
+      <h2>MedMinder</h2>
+      <div class="subtitle">Sistem Pemantauan Minum Obat</div>
+      <input id="username" placeholder="Username">
+      <input id="password" type="password" placeholder="Password">
+      <button class="primary" onclick="app.login()">Login</button>
+    `;
+  }
+
+  login() {
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
+
+    const users = JSON.parse(localStorage.getItem("users"));
+    const found = users.find(
+      user => user.username === u && user.password === p
+    );
+
+    if (!found) {
+      alert("Username atau password salah");
+      return;
+    }
+
+    this.currentUser = u;
+
+    if (!localStorage.getItem(u + "_meds")) {
+      localStorage.setItem(u + "_meds", "[]");
+    }
+
+    this.renderDashboard();
+  }
+
+  renderDashboard() {
+    this.app.innerHTML = `
+      <h2>Dashboard</h2>
+      <small>Login sebagai <b>${this.currentUser}</b></small>
+      <button class="secondary" onclick="app.renderAdd()">+ Tambah Obat</button>
+      <div id="list"></div>
+      <button class="danger" onclick="app.logout()">Logout</button>
+    `;
+    this.renderList();
+  }
+
+  renderAdd() {
+    this.app.innerHTML = `
+      <h2>Tambah Obat</h2>
+      <input id="nama" placeholder="Nama Obat">
+      <select id="aturan">
+        <option>Sebelum Makan</option>
+        <option>Sesudah Makan</option>
+      </select>
+      <select id="freq">
+        <option value="1">1x Sehari</option>
+        <option value="2">2x Sehari</option>
+        <option value="3">3x Sehari</option>
+      </select>
+      <button class="primary" onclick="app.save()">Simpan</button>
+      <button class="secondary" onclick="app.renderDashboard()">Kembali</button>
+    `;
+  }
+
+  save() {
+    const nama = document.getElementById("nama").value.trim();
+    const aturan = document.getElementById("aturan").value;
+    const freq = document.getElementById("freq").value;
+
+    if (!nama) {
+      alert("Nama obat wajib diisi");
+      return;
+    }
+
+    const meds = JSON.parse(localStorage.getItem(this.currentUser + "_meds"));
+
+    meds.push({
+      nama,
+      aturan,
+      freq,
+      time: new Date().toLocaleString(),
+      done: false
+    });
+
+    localStorage.setItem(this.currentUser + "_meds", JSON.stringify(meds));
+    this.renderDashboard();
+  }
+
+  renderList() {
+    const list = document.getElementById("list");
+    const meds = JSON.parse(localStorage.getItem(this.currentUser + "_meds"));
+
+    list.innerHTML = meds.length ? "" : "<small>Belum ada obat</small>";
+
+    meds.forEach((m, i) => {
+      const div = document.createElement("div");
+      div.className = "card" + (m.done ? " done" : "");
+      div.innerHTML = `
+        <b>${m.nama}</b><br>
+        ${m.freq}x • ${m.aturan}<br>
+        <small>${m.time}</small><br>
+        <button class="secondary" onclick="app.toggle(${i})">
+          ${m.done ? "Batal" : "✔ Sudah"}
+        </button>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  toggle(index) {
+    const meds = JSON.parse(localStorage.getItem(this.currentUser + "_meds"));
+    meds[index].done = !meds[index].done;
+    localStorage.setItem(this.currentUser + "_meds", JSON.stringify(meds));
+    this.renderList();
+  }
+
+  logout() {
+    this.currentUser = null;
+    this.renderLogin();
+  }
+}
+
+const app = new MedMinder("app");
+</script>
+</body>
+</html>
