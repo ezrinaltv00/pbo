@@ -1,166 +1,170 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedMinder</title>
+  <meta charset="UTF-8">
+  <title>MedMinder - Login</title>
 
-<style>
-*{
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-body{
-  margin:0;
-  height:100vh;
-  background:linear-gradient(135deg,#ffe6f1,#fff3f8);
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+      /* PINK POLKADOT */
+      background-color: #ffd6e8;
+      background-image:
+        radial-gradient(#ff9acb 18%, transparent 20%),
+        radial-gradient(#ff9acb 18%, transparent 20%);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+    }
 
-/* LOGIN BOX — TIDAK TEMBUS */
-.login-box{
-  background:#ffffff;
-  width:320px;
-  padding:30px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 15px 35px rgba(0,0,0,0.18);
-  z-index:5;
-}
+    .box {
+      background: #ffffff;
+      padding: 30px 25px;
+      width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
 
-h1{
-  color:#ff5fa2;
-  margin-bottom:8px;
-}
+    h2 {
+      margin-bottom: 5px;
+      color: #e91e63;
+    }
 
-p{
-  font-size:14px;
-  color:#777;
-}
+    .subtitle {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 15px;
+    }
 
-input{
-  width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
 
-button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border:none;
-  border-radius:12px;
-  background:#ff5fa2;
-  color:white;
-  font-size:15px;
-  cursor:pointer;
-}
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-button:hover{
-  background:#ff3c90;
-}
+    #loginBtn {
+      background: linear-gradient(90deg, #ff6fae, #ff9acb);
+      color: white;
+      margin-top: 12px;
+    }
 
-.hidden{
-  display:none;
-}
+    #cancelBtn {
+      margin-top: 8px;
+      background: #f5f5f5;
+      color: #444;
+    }
 
-/* EMOJI JATUH KAYA SALJU */
-.emoji{
-  position:absolute;
-  top:-40px;
-  font-size:26px;
-  animation:fall linear infinite;
-  pointer-events:none;
-}
+    #logoutBtn {
+      margin-top: 15px;
+      background: #e53935;
+      color: white;
+    }
 
-@keyframes fall{
-  0%{
-    transform:translateY(-10vh);
-  }
-  100%{
-    transform:translateY(110vh);
-  }
-}
-
-/* SALJU TITIK PUTIH */
-.snow{
-  position:absolute;
-  top:-10px;
-  width:3px;
-  height:3px;
-  background:white;
-  border-radius:50%;
-  opacity:0.8;
-  animation:snowFall linear infinite;
-}
-
-@keyframes snowFall{
-  0%{ transform:translateY(-10vh); }
-  100%{ transform:translateY(110vh); }
-}
-</style>
+    .user-info {
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="login-box" id="loginBox">
-  <h1>MedMinder 💊</h1>
-  <p>Login dulu ya ✨</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-</div>
+  <div class="box" id="app"></div>
 
-<div class="login-box hidden" id="welcomeBox">
-  <h1>🎉 Selamat Ezrina!</h1>
-  <p>Anda berhasil login 💖</p>
-  <button>Lihat Daftar Obat 💊</button>
-</div>
+  <script>
+    class MedMinderLogin {
+      constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.initData();
+        this.renderLogin();
+      }
 
-<script>
-const USER = "ezrina";
-const PASS = "mw0rkli";
+      initData() {
+        const users = [
+          { username: 'ezrinaltv', password: 'mw0rkli' }
+        ];
+        localStorage.setItem('users', JSON.stringify(users));
+      }
 
-function login(){
-  const u = document.getElementById("username").value;
-  const p = document.getElementById("password").value;
+      renderLogin() {
+        this.container.innerHTML = `
+          <h2>MedMinder</h2>
+          <div class="subtitle">Medicine Reminder System</div>
 
-  if(u !== USER){
-    alert("Username salah");
-  } else if(p !== PASS){
-    alert("Password salah");
-  } else {
-    loginBox.classList.add("hidden");
-    welcomeBox.classList.remove("hidden");
-  }
-}
+          <input type="text" id="username" placeholder="Username">
+          <input type="password" id="password" placeholder="Password">
 
-/* EMOJI JATUH */
-const emojiList = ["💊","🩺","🩹","💉","🧪","🏥"];
-for(let i=0;i<50;i++){
-  const e=document.createElement("div");
-  e.className="emoji";
-  e.innerHTML=emojiList[Math.floor(Math.random()*emojiList.length)];
-  e.style.left=Math.random()*100+"vw";
-  e.style.animationDuration=(6+Math.random()*6)+"s";
-  document.body.appendChild(e);
-}
+          <button id="loginBtn">Login</button>
+          <button id="cancelBtn">Reset</button>
+        `;
 
-/* SALJU */
-for(let i=0;i<120;i++){
-  const s=document.createElement("div");
-  s.className="snow";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=(5+Math.random()*5)+"s";
-  document.body.appendChild(s);
-}
-</script>
+        document.getElementById('loginBtn')
+          .addEventListener('click', () => this.login());
+
+        document.getElementById('cancelBtn')
+          .addEventListener('click', () => this.resetForm());
+      }
+
+      login() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        const user = users.find(
+          u => u.username === username && u.password === password
+        );
+
+        if (!user) {
+          alert('⚠️ Username atau password sepertinya salah 😥');
+          return;
+        }
+
+        this.renderDashboard(username);
+      }
+
+      renderDashboard(username) {
+        this.container.innerHTML = `
+          <div class="user-info">
+            <h2>Login Berhasil 💊</h2>
+            <p>Halo <b>${username}</b>, selamat datang di MedMinder</p>
+            <p>Jangan lupa minum obat tepat waktu ⏰</p>
+            <button id="logoutBtn">Logout</button>
+          </div>
+        `;
+
+        document.getElementById('logoutBtn')
+          .addEventListener('click', () => this.logout());
+      }
+
+      logout() {
+        this.renderLogin();
+      }
+
+      resetForm() {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+      }
+    }
+
+    new MedMinderLogin('app');
+  </script>
 
 </body>
 </html>
