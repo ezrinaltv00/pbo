@@ -5,43 +5,47 @@
 <title>MedMinder</title>
 
 <style>
-/* ===== RESET & FONT ===== */
-*{
-  box-sizing:border-box;
-}
+/* ===== RESET ===== */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background-color:#ffd1e6;
-  position:relative;
+  background:#ffc1dc;
   overflow:hidden;
 }
 
-/* ===== BACKGROUND ICONS ===== */
-body::before{
-  content:"🩺 💊 🏥 💉 🧪 🩹 🧑‍⚕️ ❤️ 🩺 💊 🏥 💉 🧪 🩹 🧑‍⚕️ ❤️";
+/* ===== EMOJI SNOW ===== */
+.emoji{
   position:absolute;
-  inset:0;
-  font-size:38px;
-  line-height:1.9;
-  opacity:0.25;
-  text-align:center;
+  font-size:34px;
+  animation: fall linear infinite;
   pointer-events:none;
+}
+
+@keyframes fall{
+  from{
+    transform:translateY(-60px) rotate(0deg);
+    opacity:1;
+  }
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0.9;
+  }
 }
 
 /* ===== CARD ===== */
 .card{
   width:360px;
-  background:#ffffff;
+  background:#fff;
   padding:28px;
   border-radius:18px;
   box-shadow:0 18px 40px rgba(0,0,0,0.25);
   position:relative;
-  z-index:1;
+  z-index:10;
 }
 
 /* ===== TEXT ===== */
@@ -50,7 +54,6 @@ h1,h2{
   font-weight:600;
   color:#222;
 }
-
 .subtitle{
   font-size:13px;
   color:#666;
@@ -77,18 +80,15 @@ button{
   font-weight:600;
   font-size:14px;
 }
-
 .primary{
   background:#ff5fa2;
   color:white;
 }
-
 .secondary{
   background:#f3f3f3;
   color:#444;
   margin-top:8px;
 }
-
 .logout{
   background:#e53935;
   color:white;
@@ -130,6 +130,23 @@ button{
 <div class="card" id="app"></div>
 
 <script>
+/* ===== EMOJI SNOW GENERATOR ===== */
+const emojis = ["💊","🩺","💉","🧪","🩹","🏥","🧑‍⚕️","❤️"];
+
+function createEmoji(){
+  const e = document.createElement("div");
+  e.className = "emoji";
+  e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  e.style.left = Math.random()*100 + "vw";
+  e.style.animationDuration = (6 + Math.random()*6) + "s";
+  e.style.fontSize = (26 + Math.random()*16) + "px";
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),12000);
+}
+
+setInterval(createEmoji,350);
+
+/* ===== APP ===== */
 class MedMinder{
   constructor(id){
     this.app = document.getElementById(id);
