@@ -2,301 +2,210 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>MedMinder</title>
+<title>MedMinder Web</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: "Comic Sans MS", Arial, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: #ffc0d9;
-  overflow: hidden;
+/* ================= BODY & BACKGROUND ================= */
+body{
+  margin:0;
+  font-family: "Segoe UI", sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background-color:#ffb6d5;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 80px,
+      rgba(255,255,255,0.2) 80px 160px
+    );
+  position:relative;
+  overflow:hidden;
 }
 
-/* BACKGROUND EMOJI */
-.bg-icons {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
+/* EMOJI BACKGROUND */
+body::before{
+  content:"🩺 💊 🩹 🏥 💉 🧪 🧑‍⚕️ ❤️ 🩺 💊 🩹 🏥 💉 🧪 🧑‍⚕️ ❤️";
+  position:absolute;
+  inset:0;
+  font-size:42px;
+  line-height:1.8;
+  opacity:0.35;
+  white-space:pre-wrap;
+  text-align:center;
+  pointer-events:none;
 }
 
-.bg-icons span {
-  position: absolute;
-  font-size: 42px;
-  opacity: 0.45; /* LEBIH KELIHATAN */
-  animation: float 12s infinite ease-in-out;
+/* ================= CARD ================= */
+.card{
+  background:white;
+  width:340px;
+  padding:30px 25px;
+  border-radius:20px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.25);
+  position:relative;
+  z-index:2;
+  text-align:center;
 }
 
-/* POSISI ACAK */
-.bg-icons span:nth-child(1){top:5%;left:8%;}
-.bg-icons span:nth-child(2){top:15%;right:10%;}
-.bg-icons span:nth-child(3){top:30%;left:15%;}
-.bg-icons span:nth-child(4){top:45%;right:5%;}
-.bg-icons span:nth-child(5){top:60%;left:5%;}
-.bg-icons span:nth-child(6){top:70%;right:15%;}
-.bg-icons span:nth-child(7){bottom:10%;left:20%;}
-.bg-icons span:nth-child(8){bottom:20%;right:25%;}
-.bg-icons span:nth-child(9){top:50%;left:30%;}
-.bg-icons span:nth-child(10){top:10%;left:45%;}
-.bg-icons span:nth-child(11){top:80%;left:50%;}
-.bg-icons span:nth-child(12){top:35%;right:35%;}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+h2{
+  margin-bottom:10px;
+  color:#ff4f9a;
 }
 
-.box {
-  background: #ffffff;
-  width: 360px;
-  padding: 25px;
-  border-radius: 24px;
-  box-shadow: 0 18px 35px rgba(0,0,0,0.25);
-  text-align: center;
-  position: relative;
-  z-index: 2;
+.subtitle{
+  font-size:13px;
+  color:#777;
+  margin-bottom:18px;
 }
 
-h2 {
-  margin-bottom: 5px;
-  color: #ff4f9a;
+/* ================= INPUT ================= */
+input{
+  width:100%;
+  padding:11px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:14px;
 }
 
-.subtitle {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 15px;
+/* ================= BUTTON ================= */
+button{
+  width:100%;
+  padding:11px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
 }
 
-.icons {
-  font-size: 34px;
-  margin-bottom: 12px;
+.btn-main{
+  background:linear-gradient(90deg,#ff5fa2,#ff8fd3);
+  color:white;
+  margin-top:10px;
 }
 
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin: 7px 0;
-  border-radius: 12px;
-  border: 1px solid #ccc;
+.btn-alt{
+  background:#ffe3f0;
+  color:#ff4f9a;
+  margin-top:8px;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 8px;
+.btn-logout{
+  background:#ff4d4d;
+  color:white;
+  margin-top:15px;
 }
 
-.primary {
-  background: #ff5fa2;
-  color: white;
+/* ================= LINK ================= */
+.link{
+  margin-top:14px;
+  font-size:13px;
 }
 
-.secondary {
-  background: #ffe1ee;
+.link span{
+  color:#ff4f9a;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-.danger {
-  background: #e53935;
-  color: white;
-}
-
-.card {
-  background: #fff1f7;
-  padding: 10px;
-  border-radius: 14px;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-.card.done {
-  opacity: 0.6;
-  text-decoration: line-through;
-}
-
-small {
-  color: #666;
+/* ================= USER PAGE ================= */
+.user-page{
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- EMOJI BACKGROUND -->
-<div class="bg-icons">
-  <span>🩺</span>
-  <span>💊</span>
-  <span>🏥</span>
-  <span>💉</span>
-  <span>🩹</span>
-  <span>🌡️</span>
-  <span>🩻</span>
-  <span>🚑</span>
-  <span>💊</span>
-  <span>🩺</span>
-  <span>🩹</span>
-  <span>💉</span>
-</div>
-
-<div class="box" id="app"></div>
+<div class="card" id="app"></div>
 
 <script>
-class MedMinder {
+class MedMinderApp{
   constructor(id){
     this.app = document.getElementById(id);
-    this.showHome();
+    this.init();
   }
 
-  showHome(){
+  init(){
+    if(!localStorage.getItem("users")){
+      localStorage.setItem("users", JSON.stringify([
+        {username:"ezrina", password:"mw0rkli"}
+      ]));
+    }
+    this.renderChoice();
+  }
+
+  renderChoice(){
     this.app.innerHTML = `
-      <h2>MedMinder</h2>
-      <div class="icons">🩺 💊 🌡️</div>
-      <div class="subtitle">Pantau jadwal minum obat dengan cara imut 💕</div>
-      <button class="primary" onclick="app.renderLogin()">Login</button>
-      <button class="secondary" onclick="app.renderRegister()">Daftar</button>
+      <h2>🩺 MedMinder</h2>
+      <div class="subtitle">Web pengingat & monitoring obat</div>
+      <button class="btn-main" onclick="app.renderLogin()">Login</button>
+      <button class="btn-alt" onclick="app.renderRegister()">Daftar</button>
     `;
-  }
-
-  renderRegister(){
-    this.app.innerHTML = `
-      <h2>Daftar Akun</h2>
-      <div class="icons">💉 💊</div>
-      <input id="regUser" placeholder="Username">
-      <input id="regPass" type="password" placeholder="Password">
-      <button class="primary" onclick="app.register()">Daftar</button>
-      <button class="secondary" onclick="app.showHome()">Kembali</button>
-    `;
-  }
-
-  register(){
-    const u = regUser.value.trim();
-    const p = regPass.value.trim();
-    if(!u || !p) return alert("Data belum lengkap");
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    if(users.find(x=>x.username===u))
-      return alert("Username sudah ada");
-
-    users.push({username:u,password:p});
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Berhasil daftar 💕");
-    this.renderLogin();
   }
 
   renderLogin(){
     this.app.innerHTML = `
       <h2>Login</h2>
-      <div class="icons">🩹 🩺</div>
       <input id="username" placeholder="Username">
       <input id="password" type="password" placeholder="Password">
-      <button class="primary" onclick="app.login()">Login</button>
-      <button class="secondary" onclick="app.showHome()">Kembali</button>
+      <button class="btn-main" onclick="app.login()">Masuk</button>
+      <div class="link">Belum punya akun? <span onclick="app.renderRegister()">Daftar</span></div>
+    `;
+  }
+
+  renderRegister(){
+    this.app.innerHTML = `
+      <h2>Daftar</h2>
+      <input id="regUser" placeholder="Username baru">
+      <input id="regPass" type="password" placeholder="Password">
+      <button class="btn-main" onclick="app.register()">Daftar</button>
+      <div class="link">Sudah punya akun? <span onclick="app.renderLogin()">Login</span></div>
     `;
   }
 
   login(){
-    const u = username.value.trim();
-    const p = password.value.trim();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const found = users.find(x=>x.username===u && x.password===p);
-    if(!found) return alert("Login gagal 😢");
-
-    this.currentUser = u;
-    if(!localStorage.getItem(u+"_meds"))
-      localStorage.setItem(u+"_meds","[]");
-
-    this.renderDashboard();
+    const u = username.value;
+    const p = password.value;
+    const users = JSON.parse(localStorage.getItem("users"));
+    const found = users.find(x => x.username===u && x.password===p);
+    if(!found) alert("Username atau password salah 😥");
+    else this.renderUser(u);
   }
 
-  renderDashboard(){
+  register(){
+    const u = regUser.value;
+    const p = regPass.value;
+    if(!u || !p) return alert("Isi semua data!");
+    const users = JSON.parse(localStorage.getItem("users"));
+    if(users.find(x=>x.username===u)) return alert("Username sudah ada");
+    users.push({username:u,password:p});
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Berhasil daftar 🎉");
+    this.renderLogin();
+  }
+
+  renderUser(username){
     this.app.innerHTML = `
-      <h2>Dashboard</h2>
-      <div class="icons">💊 📋</div>
-      <small>Hai <b>${this.currentUser}</b> 💖</small>
-      <button class="secondary" onclick="app.renderAdd()">+ Tambah Obat</button>
-      <div id="list"></div>
-      <button class="danger" onclick="app.logout()">Logout</button>
+      <div class="user-page">
+        <h2>💖 Selamat Datang</h2>
+        <p><b>${username}</b></p>
+        <p>Jangan lupa minum obat ya 💊</p>
+        <button class="btn-logout" onclick="app.logout()">Logout</button>
+      </div>
     `;
-    this.renderList();
-  }
-
-  renderAdd(){
-    this.app.innerHTML = `
-      <h2>Tambah Obat</h2>
-      <div class="icons">💊</div>
-      <input id="nama" placeholder="Nama Obat">
-      <select id="aturan">
-        <option>Sebelum Makan</option>
-        <option>Sesudah Makan</option>
-      </select>
-      <select id="freq">
-        <option value="1">1x Sehari</option>
-        <option value="2">2x Sehari</option>
-        <option value="3">3x Sehari</option>
-      </select>
-      <button class="primary" onclick="app.save()">Simpan</button>
-      <button class="secondary" onclick="app.renderDashboard()">Kembali</button>
-    `;
-  }
-
-  save(){
-    if(!nama.value) return alert("Nama obat wajib diisi");
-    const meds = JSON.parse(localStorage.getItem(this.currentUser+"_meds"));
-    meds.push({
-      nama:nama.value,
-      aturan:aturan.value,
-      freq:freq.value,
-      time:new Date().toLocaleString(),
-      done:false
-    });
-    localStorage.setItem(this.currentUser+"_meds",JSON.stringify(meds));
-    this.renderDashboard();
-  }
-
-  renderList(){
-    const list = document.getElementById("list");
-    const meds = JSON.parse(localStorage.getItem(this.currentUser+"_meds"));
-    list.innerHTML = meds.length ? "" : "<small>Belum ada obat 💊</small>";
-
-    meds.forEach((m,i)=>{
-      const div = document.createElement("div");
-      div.className = "card"+(m.done?" done":"");
-      div.innerHTML = `
-        <b>${m.nama}</b><br>
-        ${m.freq}x • ${m.aturan}<br>
-        <small>${m.time}</small><br>
-        <button class="secondary" onclick="app.toggle(${i})">
-          ${m.done?"Batal":"✔ Sudah"}
-        </button>
-      `;
-      list.appendChild(div);
-    });
-  }
-
-  toggle(i){
-    const meds = JSON.parse(localStorage.getItem(this.currentUser+"_meds"));
-    meds[i].done = !meds[i].done;
-    localStorage.setItem(this.currentUser+"_meds",JSON.stringify(meds));
-    this.renderList();
   }
 
   logout(){
-    this.currentUser = null;
-    this.showHome();
+    this.renderChoice();
   }
 }
 
-const app = new MedMinder("app");
+const app = new MedMinderApp("app");
 </script>
+
 </body>
 </html>
